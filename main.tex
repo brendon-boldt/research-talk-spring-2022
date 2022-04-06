@@ -1,0 +1,381 @@
+\documentclass{beamer}
+% compress?
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+
+\usepackage{varwidth}
+\usepackage{caption}
+\usepackage{xcolor}
+\usepackage{tikz,pgfplots}
+\pgfplotsset{compat=1.18}
+\usepackage{subcaption}
+\usepackage{graphicx}
+\usepackage{listings}
+
+
+\usetheme{Dresden}
+\useoutertheme[footline=authorinstitutetitle,subsection=false]{miniframes}
+
+% \definecolor{ThemeColor}{rgb}{200/255, 69/255, 147/255}
+\definecolor{ThemeColor}{rgb}{0.6, 0.0, 0.6}
+\usecolortheme[named=ThemeColor]{structure}
+
+% \setbeamertemplate{footline}[frame number]
+% \setbeamertemplate{footline}{
+    % \begin{beamercolorbox}[right]{author in head/foot}%
+        % \insertframenumber{} / \inserttotalframenumber
+    % \end{beamercolorbox}%
+% }
+
+\AtBeginSection[]{
+    \begin{frame}
+    \vfill \centering
+    \begin{beamercolorbox}[sep=8pt, center, shadow=true, rounded=true]{title}
+        \usebeamerfont{title}\insertsectionhead\par%
+    \end{beamercolorbox}
+    \vfill
+    \end{frame}
+}
+
+
+
+\title{A Theoretical Model for Lexicon Entropy in Emergent Language}
+\author{Brendon Boldt, David Mortensen}
+\date{\today}
+% \addtobeamertemplate{navigation symbols}{}{\quad\includegraphics[width=2em]{ih-white}}
+\addtobeamertemplate{navigation symbols}{}{\hspace{0.2em}\rm \raise1ex\hbox{JM\raise 1ex\hbox{\kern-0.7em\textdagger}\kern0.1emJ}}
+% \addtobeamertemplate{navigation symbols}{}{\quad M\raise 1ex\hbox{\kern-0.7em\textdagger}\kern -0.75em\raise 0.5ex\hbox{---}}
+% JM\raise 1ex\hbox{\kern-0.7em\textdagger}\kern0.25emJ
+% M\raise 1ex\hbox{\kern-0.7em\textdagger}\kern -0.75em\raise 0.5ex\hbox{---}
+
+
+\renewcommand{\thesubfigure}{\arabic{figure}.\alph{subfigure}}
+
+\newif\ifusevizzes
+\usevizzestrue
+% \usevizzesfalse
+
+
+\begin{document}
+
+\maketitle
+
+\section{Overview}
+
+\begin{frame}{This talk}
+    \begin{itemize}
+        \item Introduce an emergent language environment
+            \begin{itemize}
+                \item And a property we want to measure
+            \end{itemize}
+        \item Define a mathematical model for this property
+        \item Compare the model's predictions to the actual system
+        \item Discuss models and their role more generally
+    \end{itemize}
+\end{frame}
+
+\section{Background}
+
+\begin{frame}{Emergent language}
+    \begin{enumerate}
+        \item Start with a multi-agent reinforcement learning environment
+            \begin{itemize}
+                \item Agents have communication channel
+            \end{itemize}
+        \item See how agents learn to interact and communicate
+        \item Study the resulting communication protocol
+        \item Apply these findings
+    \end{enumerate}
+\end{frame}
+
+\begin{frame}{Environment and agent architecture} \begin{center}
+    \begin{figure}
+        \begin{subfigure}{0.45\linewidth}
+            \includegraphics[height=1.2in]{assets/navigation.pdf}
+            \caption{Environment}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}{0.45\linewidth}
+            \includegraphics[height=1.2in]{assets/agent-architecture.pdf}
+            \caption{Agent architecture}
+        \end{subfigure}
+    \end{figure}
+    \end{center}
+\end{frame}
+
+\begin{frame}{Entropy}
+    \begin{itemize}
+        \item Shannon entropy (from information theory)
+            \begin{itemize}
+                \item Measures average amount of information per message
+            \end{itemize}
+        \item Entropy $\approx$ evenness of message distribution
+            \begin{itemize}
+                \item High entropy $\rightarrow$ close to uniform
+                \item Low entropy $\rightarrow$ highly concentrated probability
+            \end{itemize}
+        \item Fundamental property of communication
+            \begin{itemize}
+                \item Precision--effort tradeoff
+            \end{itemize}
+    \end{itemize}
+\end{frame}
+
+
+\section{The Model}
+
+\begin{frame}{Chinese restaurant process}
+    \begin{itemize}
+        \item Self-reinforcing stochastic process
+        \item Yields a distribution over the positive integers
+        \item Start with an infinite number of tables
+            \begin{itemize}
+                \item When a person walks in, sit a table randomly
+                    \begin{itemize}
+                        \item Probability proportional to \# of people at table
+                        \item Sit at new table as if it already had $\alpha$ people
+                    \end{itemize}
+                \item Repeat
+            \end{itemize}
+    \end{itemize}
+\end{frame}
+
+
+\begin{frame}{Chinese restaurant process visualization}
+    \begin{center}
+        \ifusevizzes
+            \input{assets/crp.tex}
+        \else
+            \includegraphics[width=7cm]{example-image-a.png}
+        \fi
+    \end{center}
+\end{frame}
+
+
+\begin{frame}{The analogy}
+    \begin{itemize}
+        \item Three-way analogy
+            \begin{itemize}
+                \item Mathematical model
+                \item Neural network/RL model
+                \item Human language
+            \end{itemize}
+        \item Tables $\cong$ words
+        \item Table population $\cong$ likelihood of using that word
+        \item Intuition:
+        \begin{itemize}
+            \item Used words are learned more
+            \item Learned words are used more
+        \end{itemize}
+        % TODO specify what this is analogous to
+        % \item Basis in linguistics (Francis et al., 2021)
+        % TODO think about this more
+    \end{itemize}
+\end{frame}
+
+% \begin{frame}[fragile]{Finite lexicon process (FiLex)}
+%         \hrulefill
+%         \vspace{-1ex}
+%         \begin{lstlisting}[
+%             language=Python,
+%             basicstyle=\ttfamily\scriptsize,
+%             numbers=left,
+%             xleftmargin=3.0em,
+%         ]
+% alpha: float > 0
+% beta: int > 0
+% N: int >= 0
+% S: int > 0
+% 
+% weights = array(size = S)
+% weights.fill(alpha / S)
+% for _ in range(N):
+%   w_copy = weights.copy()
+%   for _ in range(beta):
+%     i = sample_categorical(w_copy)
+%     weights[i] += 1 / beta
+% return weights / sum(weights)
+%         \end{lstlisting}
+%         \vspace{-2ex}
+%         \hrulefill
+% \end{frame}
+
+%%% TODO define ELS
+
+\begin{frame}{\textsc{FiLex}}
+    \begin{itemize}
+        \item \textbf{Fi}nite \textbf{Lex}icon Stochastic Process
+        \item Modification of the Chinese restaurant process
+            \begin{itemize}
+                \item Finite lexicon
+                \item Start with uniform weights
+                \item ``Expected'' updates
+            \end{itemize}
+        \item Analogy with neural network
+            \begin{itemize}
+                \item Size of update $\cong$ learning rate
+                \item \# of tables $\cong$ bottleneck size
+                \item \# of steps $\cong$ training steps
+            \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{\textsc{FiLex} visualization}
+    \begin{center}
+    \ifusevizzes
+          \input{assets/filex.tex}
+      \else
+          \includegraphics[width=7cm]{example-image-b.png}
+      \fi
+    \end{center}
+\end{frame}
+
+\section{Experiments}
+
+\begin{frame}{Experiments}
+    \begin{itemize}
+        \item Compare hyperparameter sweeps with the model and system
+        \item Model parameters adjusted to imitate system
+            \begin{itemize}
+                \item Correspondence between HPs not $1:1$
+            \end{itemize}
+        \item Primarily qualitative, looking at general trends
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Plot comparison}
+    \begin{center}
+        \begin{figure}
+            \def\plotheight{0.8in}
+            \def\subfigwidth{0.30}
+            \centering
+
+            \begin{subfigure}[t]{0.36\linewidth}
+                \centering
+                \rotatebox{70}{\scriptsize\hspace{2em}FiLex}
+                \includegraphics[height=\plotheight]{assets/model-alpha.pdf}
+                % \caption{\theProcess\@: $1/\alpha$}\label{fig:beta}
+                \hbox{
+                    \rotatebox{70}{\scriptsize\hspace{2em}System}
+                    \hspace{0.1em}
+                    \includegraphics[height=\plotheight]{assets/learning_rate_log-entropy-default.pdf}
+                }
+                \caption{\scriptsize learning rate}
+            \end{subfigure}
+            % \begin{subfigure}[t]{\subfigwidth\linewidth}
+            %     \centering
+            %     \includegraphics[height=\plotheight]{assets/model-beta.pdf}
+            %     % \caption{\theProcess: $\beta$}\label{fig:beta}
+            %     \includegraphics[height=\plotheight]{assets/n_steps_log-entropy-default.pdf}
+            %     \caption{$\beta$ and rollout buffer size}
+            % \end{subfigure}
+            \begin{subfigure}[t]{\subfigwidth\linewidth}
+                \centering
+                \includegraphics[height=\plotheight]{assets/model-n_params.pdf}
+                % \caption{\theProcess: \texttt{n\_params} }\label{fig:beta}
+                \hbox{
+                    \hspace{-0.0em}
+                    \includegraphics[height=\plotheight]{assets/bottleneck_size_log-entropy-default.pdf}
+                }
+                \caption{\scriptsize bottleneck size}
+            \end{subfigure}
+            \begin{subfigure}[t]{\subfigwidth\linewidth}
+                \includegraphics[height=\plotheight]{assets/model-n_iters.pdf}
+                % \caption{\theProcess: \texttt{n\_iters}}\label{fig:beta}
+                % \centering
+                \hbox{
+                    \hspace{-0.15em}
+                    \includegraphics[height=\plotheight]{assets/total_timesteps_log-entropy-default.pdf}
+                }
+                \caption{\scriptsize training steps}
+            \end{subfigure}
+
+            % \caption{
+            %     Plots for entropy vs.\@ various hyperparameters.
+            %     \theProcess{} is plotted in orange and the ELS in blue.
+            % }\label{fig:plots}
+        \end{figure}
+    \end{center}
+\end{frame}
+
+% TODO discussion slide
+
+\section{Significance of Models}
+
+%%% TODO bold things as needed
+
+\begin{frame}{Why are models important?}
+    \begin{itemize}
+        \item Models form the core of scientific theories
+            \begin{itemize}
+                \item Make predictions
+                \item Explain observations
+            \end{itemize}
+        \item Less important in engineering (to an extent)
+            \begin{itemize}
+                \item Explaining and predicting is still important
+            \end{itemize}
+        \item For everyone: \textbf{all experiments are based on models}
+            \begin{itemize}
+                \item {\footnotesize So we may as well make these models good.}
+            \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{The role of models}
+    \begin{itemize}
+        \item Experiments have an expected outcome
+            \begin{itemize}
+                \item Where does that expectation come from?
+            \end{itemize}
+        \item Two kinds of models:
+            \begin{itemize}
+                \item \textit{Explicit:} mathematical, precise
+                \item \textit{Implicit:} intuition, analogy
+            \end{itemize}
+        \item What happens when the model is proved wrong?
+            \begin{itemize}
+                \item \textit{Explicit:} revise, improve
+                \item \textit{Implicit:} change intuitions, I guess\ldots
+                % \item Implicit: ¯\textbackslash\_( ''\kern-0.6em\rotatebox{120}J)\_/¯
+            \end{itemize}
+        \item \emph{Negative results can be interesting!}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Improving the experiments}
+    \begin{itemize}
+        \item Form a clear hypothesis
+            \begin{itemize}
+                \item Must be falsifiable (able to be refuted based on evidence)
+                \item e.g., specifying metrics and statistical significance criteria
+            \end{itemize}
+        \item Define precisely how hyperparameters are selected
+            \begin{itemize}
+                \item e.g., goodness of fit, predictive power
+            \end{itemize}
+        \item Allows us to demonstrate:
+            \begin{itemize}
+                \item Where the model works
+                \item Where the model does not work
+                \item Determine what would fix the model
+            \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Review}
+    \begin{itemize}
+        \item A stochastic process can model the emergent lexicon entropy
+            \begin{itemize}
+                \item Self-reinforcement is the key ingredient.
+            \end{itemize}
+        \item Working with an explicit model is important
+            \begin{itemize}
+                \item Facilitates work across researchers
+                \item Can be improved in light of negative results
+            \end{itemize}
+        \item Must be rigorously tested
+    \end{itemize}
+\end{frame}
+
+\end{document}
