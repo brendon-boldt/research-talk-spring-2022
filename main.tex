@@ -17,7 +17,7 @@
 \useoutertheme[footline=authorinstitutetitle,subsection=false]{miniframes}
 
 % \definecolor{ThemeColor}{rgb}{200/255, 69/255, 147/255}
-\definecolor{ThemeColor}{rgb}{0.6, 0.0, 0.6}
+\definecolor{ThemeColor}{rgb}{0.7, 0.5, 0.0}
 \usecolortheme[named=ThemeColor]{structure}
 
 % \setbeamertemplate{footline}[frame number]
@@ -157,7 +157,7 @@
         \item Three-way analogy
             \begin{itemize}
                 \item Mathematical model
-                \item Neural network/RL model
+                \item Neural network/RL system
                 \item Human language
             \end{itemize}
         \item Tables $\cong$ words
@@ -167,40 +167,8 @@
             \item Used words are learned more
             \item Learned words are used more
         \end{itemize}
-        % TODO specify what this is analogous to
-        % \item Basis in linguistics (Francis et al., 2021)
-        % TODO think about this more
     \end{itemize}
 \end{frame}
-
-% \begin{frame}[fragile]{Finite lexicon process (FiLex)}
-%         \hrulefill
-%         \vspace{-1ex}
-%         \begin{lstlisting}[
-%             language=Python,
-%             basicstyle=\ttfamily\scriptsize,
-%             numbers=left,
-%             xleftmargin=3.0em,
-%         ]
-% alpha: float > 0
-% beta: int > 0
-% N: int >= 0
-% S: int > 0
-% 
-% weights = array(size = S)
-% weights.fill(alpha / S)
-% for _ in range(N):
-%   w_copy = weights.copy()
-%   for _ in range(beta):
-%     i = sample_categorical(w_copy)
-%     weights[i] += 1 / beta
-% return weights / sum(weights)
-%         \end{lstlisting}
-%         \vspace{-2ex}
-%         \hrulefill
-% \end{frame}
-
-%%% TODO define ELS
 
 \begin{frame}{\textsc{FiLex}}
     \begin{itemize}
@@ -209,7 +177,7 @@
             \begin{itemize}
                 \item Finite lexicon
                 \item Start with uniform weights
-                \item ``Expected'' updates
+                \item Smooth updates
             \end{itemize}
         \item Analogy with neural network
             \begin{itemize}
