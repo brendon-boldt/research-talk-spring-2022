@@ -11,6 +11,7 @@
 \usepackage{subcaption}
 \usepackage{graphicx}
 \usepackage{listings}
+\usepackage{comment}
 
 
 \usetheme{Dresden}
@@ -52,13 +53,30 @@
 \renewcommand{\thesubfigure}{\arabic{figure}.\alph{subfigure}}
 
 \newif\ifusevizzes
-\usevizzestrue
-% \usevizzesfalse
+% \usevizzestrue
+\usevizzesfalse
 
 
 \begin{document}
 
 \maketitle
+
+% TODO
+% Rehearse entropy tradeoff speech
+% Make slide introducing model
+% Talk about environment hyperparameters when first introduced?
+% Remove caveat
+
+%%% Presentation Times %%%
+% Overview       1:30
+% Background     6:30
+% The Model     16:30
+% Experiments    6:15
+% Sig of Models  9:30
+% Review         1:05
+% Total         41:20
+
+\begin{comment}
 
 \section{Overview}
 
@@ -68,7 +86,7 @@
             \begin{itemize}
                 \item And a property we want to measure
             \end{itemize}
-        \item Define a mathematical model for this property
+        \item Define a mathematical model of this property
         \item Compare the model's predictions to the actual system
         \item Discuss models and their role more generally
     \end{itemize}
@@ -266,65 +284,84 @@
     \end{center}
 \end{frame}
 
-% TODO discussion slide
+\begin{frame}{Discussion}
+    \begin{itemize}
+        \item Model and system have functional similarities
+            \begin{itemize}
+                \item Conceptually, by analogy
+                \item Experimentally
+            \end{itemize}
+        \item Reasoning with the model applies to system
+            \begin{itemize}
+                \item Explanation
+                \item Prediction
+            \end{itemize}
+    \end{itemize}
+\end{frame}
 
 \section{Significance of Models}
+\end{comment}
 
 %%% TODO bold things as needed
 
+% model matches system
+% models are used for explanation and prediction
+
+% model yield experiments
+% implicit and explicit models
+% explicit models are easier to express
+% experiments reflect on models; theory building
+
 \begin{frame}{Why are models important?}
     \begin{itemize}
-        \item Models form the core of scientific theories
-            \begin{itemize}
-                \item Make predictions
-                \item Explain observations
-            \end{itemize}
-        \item Less important in engineering (to an extent)
-            \begin{itemize}
-                \item Explaining and predicting is still important
-            \end{itemize}
-        \item For everyone: \textbf{all experiments are based on models}
-            \begin{itemize}
-                \item {\footnotesize So we may as well make these models good.}
-            \end{itemize}
+        \item Explanation
+        \item Prediction
+        \item How we communicate concepts
+        \item All experiments are based on models
     \end{itemize}
 \end{frame}
 
 \begin{frame}{The role of models}
     \begin{itemize}
-        \item Experiments have an expected outcome
-            \begin{itemize}
-                \item Where does that expectation come from?
-            \end{itemize}
+        \item Experiments have a \emph{raison d'\^etre}
+        \item This reasoning comes from models
         \item Two kinds of models:
             \begin{itemize}
                 \item \textit{Explicit:} mathematical, precise
                 \item \textit{Implicit:} intuition, analogy
             \end{itemize}
+        \item This paper illustrates an explicit model
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Advantage of explicit models}
+    \begin{itemize}
         \item What happens when the model is proved wrong?
             \begin{itemize}
                 \item \textit{Explicit:} revise, improve
                 \item \textit{Implicit:} change intuitions, I guess\ldots
-                % \item Implicit: ¯\textbackslash\_( ''\kern-0.6em\rotatebox{120}J)\_/¯
             \end{itemize}
-        \item \emph{Negative results can be interesting!}
+        \item Mathematical models go beyond initial assumptions
+        \item Explicit models are easier to express
+            \begin{itemize}
+                \item But difficult to apply to deep learning
+                \item Seldom used in applications
+            \end{itemize}
+        % \item \emph{Negative results can be interesting!}
     \end{itemize}
 \end{frame}
 
-\begin{frame}{Improving the experiments}
+\begin{frame}{Future work}
     \begin{itemize}
+        \item Rigorous analysis of empirical results
         \item Form a clear hypothesis
             \begin{itemize}
                 \item Must be falsifiable (able to be refuted based on evidence)
-                \item e.g., specifying metrics and statistical significance criteria
-            \end{itemize}
-        \item Define precisely how hyperparameters are selected
-            \begin{itemize}
-                \item e.g., goodness of fit, predictive power
+                \item e.g., statistical significance criteria
             \end{itemize}
         \item Allows us to demonstrate:
             \begin{itemize}
-                \item Where the model works
+                \item Where there is evidence for the model
                 \item Where the model does not work
                 \item Determine what would fix the model
             \end{itemize}
@@ -332,18 +369,13 @@
 \end{frame}
 
 \begin{frame}{Review}
-    \begin{itemize}
-        \item A stochastic process can model the emergent lexicon entropy
+    \begin{enumerate}
+        \item Illustrate what an explicit model looks like
             \begin{itemize}
-                \item Self-reinforcement is the key ingredient.
+                \item Specifically for a deep learning-based field
             \end{itemize}
-        \item Working with an explicit model is important
-            \begin{itemize}
-                \item Facilitates work across researchers
-                \item Can be improved in light of negative results
-            \end{itemize}
-        \item Must be rigorously tested
-    \end{itemize}
+        \item Argue for the importance of explicit models
+    \end{enumerate}
 \end{frame}
 
 \end{document}
